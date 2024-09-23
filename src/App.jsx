@@ -11,31 +11,40 @@ const USER_DATA = {
   duration: 0,
 };
 
-const test_data = {
-  initialInvestment: 15000,
-  annualInvestment: 1200,
-  expectedReturn: 6,
-  duration: 10,
-};
-
 function App() {
   const [user, setUserData] = useState(USER_DATA);
+
+  var annualData = [];
+
+  const test_data = {
+    initialInvestment: 15000,
+    annualInvestment: 1200,
+    expectedReturn: 6,
+    duration: 10,
+  };
+  
 
   function handleUserInfoChange(dataType, event) {
     setUserData((prevUser) => {
       const updatedUser = {
         ...prevUser,
-        [dataType]: event.target.value,
+        [dataType]: Number(event.target.value),
       };
-      console.log(updatedUser); // Log the updated state
       return updatedUser;
     });
+  }
+
+  if(user.annualInvestment !== 0 && user.duration !== 0 && user.expectedReturn !==0 && user.initialInvestment !==0){
+    annualData = calculateInvestmentResults(user);
   }
   return (
     <>
       <Header />
       <UserInput onChangeData={handleUserInfoChange} />
-      <Result userData = {user}/>
+      <Result 
+      annualReport={annualData}
+      initialInvestment = {user.initialInvestment}
+      annualInvestment = {user.annualInvestment}/>
     </>
   );
 }
