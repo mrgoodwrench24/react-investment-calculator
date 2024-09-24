@@ -1,9 +1,19 @@
-import { formatter } from "../util/investment";
+import { calculateInvestmentResults, formatter } from "../util/investment.js";
 
-export default function Result({ annualReport, initialInvestment, annualInvestment }) {
+export default function Result({ userInput }) {
+  var annualData = [];
   var totalInterest = 0;
-  var investedCapitol = initialInvestment;
 
+  if (
+    userInput.annualInvestment !== 0 &&
+    userInput.duration !== 0 &&
+    userInput.expectedReturn !== 0 &&
+    userInput.initialInvestment !== 0
+  ) {
+    annualData = calculateInvestmentResults(userInput);
+  }
+
+  var investedCapitol = userInput.initialInvestment;
 
   return (
     <section>
@@ -18,18 +28,16 @@ export default function Result({ annualReport, initialInvestment, annualInvestme
           </tr>
         </thead>
         <tbody>
-          {annualReport.map((yearData, index) => {
+          {annualData.map((yearData) => {
             totalInterest += yearData.interest;
-            investedCapitol += annualInvestment;
+            investedCapitol += userInput.annualInvestment;
             return (
-              <tr key={yearData + index}>
+              <tr key={yearData.year}>
                 <td>{yearData.year}</td>
                 <td>{formatter.format(yearData.valueEndOfYear)}</td>
                 <td>{formatter.format(yearData.interest)}</td>
                 <td>{formatter.format(totalInterest)}</td>
                 <td>{formatter.format(investedCapitol)}</td>
-
-
               </tr>
             );
           })}

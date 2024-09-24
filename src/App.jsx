@@ -14,7 +14,7 @@ const USER_DATA = {
 function App() {
   const [user, setUserData] = useState(USER_DATA);
 
-  var annualData = [];
+ 
 
   const test_data = {
     initialInvestment: 15000,
@@ -22,6 +22,7 @@ function App() {
     expectedReturn: 6,
     duration: 10,
   };
+  
   
 
   function handleUserInfoChange(dataType, event) {
@@ -34,17 +35,14 @@ function App() {
     });
   }
 
-  if(user.annualInvestment !== 0 && user.duration !== 0 && user.expectedReturn !==0 && user.initialInvestment !==0){
-    annualData = calculateInvestmentResults(user);
-  }
   return (
     <>
       <Header />
-      <UserInput onChangeData={handleUserInfoChange} />
+      <UserInput 
+      onChangeData={handleUserInfoChange} 
+      userInput = {user}/>
       <Result 
-      annualReport={annualData}
-      initialInvestment = {user.initialInvestment}
-      annualInvestment = {user.annualInvestment}/>
+      userInput = {user}/>
     </>
   );
 }
